@@ -4,17 +4,15 @@ metadata:
   name: hello-world
   namespace: argocd
   annotations:
-    # ArgoCD Image Updater: auto-detect new image tags
     argocd-image-updater.argoproj.io/image-list: myimage=ghcr.io/ras-km/hello-world
     argocd-image-updater.argoproj.io/myimage.update-strategy: semver
     argocd-image-updater.argoproj.io/write-back-method: git
 spec:
   project: default
   source:
-    repoURL: https://github.com/ras-km/gitops-config
+    repoURL: https://github.com/ras-km/gitops-config-repo
     targetRevision: main
     path: apps/hello-world/overlays/production
-    # We use Kustomize (ArgoCD auto-detects kustomization.yaml)
   destination:
     server: https://kubernetes.default.svc
     namespace: hello-world-production
@@ -24,7 +22,6 @@ spec:
       selfHeal: true
     syncOptions:
       - CreateNamespace=true
-  # Blue-Green deployment strategy (requires Argo Rollouts)
   ignoreDifferences:
     - group: argoproj.io
       kind: Rollout
