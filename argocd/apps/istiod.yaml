@@ -4,7 +4,7 @@ metadata:
   name: istiod
   namespace: argocd
   annotations:
-    argocd.argoproj.io/sync-wave: "2"  # Install after istio-base
+    argocd.argoproj.io/sync-wave: "2"
 spec:
   project: default
   source:
@@ -14,11 +14,10 @@ spec:
     helm:
       values: |
         pilot:
-          traceSampling: 100  # Trace 100% for demo (use 1% in production)
+          traceSampling: 100
   destination:
     server: https://kubernetes.default.svc
     namespace: istio-system
   syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
