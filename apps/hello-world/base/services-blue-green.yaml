@@ -1,23 +1,19 @@
-# Active service — receives all live traffic
 apiVersion: v1
 kind: Service
 metadata:
   name: hello-world-active
 spec:
-  selector:
-    app: hello-world
   ports:
     - port: 80
       targetPort: 8080
+      protocol: TCP
 ---
-# Preview service — lets you test the new version before go-live
 apiVersion: v1
 kind: Service
 metadata:
   name: hello-world-preview
 spec:
-  selector:
-    app: hello-world
   ports:
     - port: 80
       targetPort: 8080
+      protocol: TCP
