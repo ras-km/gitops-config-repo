@@ -8,7 +8,7 @@ namespace: hello-world-production
 
 images:
   - name: ghcr.io/ras-km/hello-world
-    newTag: v1.0.14
+    newTag: v1.0.15
 
 patches:
   - patch: |-
