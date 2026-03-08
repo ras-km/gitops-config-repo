@@ -4,7 +4,7 @@ metadata:
   name: istio-base
   namespace: argocd
   annotations:
-    argocd.argoproj.io/sync-wave: "1"  # Install first
+    argocd.argoproj.io/sync-wave: "1"
 spec:
   project: default
   source:
@@ -20,3 +20,9 @@ spec:
       selfHeal: true
     syncOptions:
       - CreateNamespace=true
+  ignoreDifferences:
+    - group: admissionregistration.k8s.io
+      kind: ValidatingWebhookConfiguration
+      name: istiod-default-validator
+      jsonPointers:
+        - /webhooks
