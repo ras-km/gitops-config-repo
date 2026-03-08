@@ -11,7 +11,7 @@ commonLabels:
  
 images:
   - name: ghcr.io/ras-km/hello-world
-    newTag: v1.0.10
+    newTag: v1.0.11
  
 patches:
   - patch: |-
