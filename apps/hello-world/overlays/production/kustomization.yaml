@@ -11,7 +11,7 @@ commonLabels:
  
 images:
   - name: ghcr.io/ras-km/hello-world
-    newTag: v1.0.0  # Production uses pinned versions, NOT 'latest'
+    newTag: v1.0.8
  
 patches:
   - patch: |-
