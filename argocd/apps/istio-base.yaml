@@ -15,9 +15,6 @@ spec:
     server: https://kubernetes.default.svc
     namespace: istio-system
   syncPolicy:
-    automated:
-      prune: true
-      selfHeal: false
     syncOptions:
       - CreateNamespace=true
       - ServerSideApply=true
