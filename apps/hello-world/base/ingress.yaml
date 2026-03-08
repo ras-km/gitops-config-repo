@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: hello-world
+  annotations:
+    # cert-manager will automatically provision a TLS certificate
+    cert-manager.io/cluster-issuer: selfsigned-issuer  # Use letsencrypt-prod for real domains
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - hello-world.local
+      secretName: hello-world-tls  # cert-manager creates this secret
+  rules:
+    - host: hello-world.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: hello-world-active  # Points to blue-green active service
+                port:
+                  number: 80

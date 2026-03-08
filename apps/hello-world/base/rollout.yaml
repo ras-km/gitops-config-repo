@@ -1,0 +1,33 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout           # Changed from 'Deployment'
+metadata:
+  name: hello-world
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: hello-world
+  template:
+    metadata:
+      labels:
+        app: hello-world
+    spec:
+      containers:
+        - name: hello-world
+          image: ghcr.io/YOUR_USERNAME/hello-world:latest
+          ports:
+            - containerPort: 8080
+          resources:
+            requests:
+              memory: 64Mi
+              cpu: 50m
+            limits:
+              memory: 128Mi
+              cpu: 100m
+  strategy:
+    blueGreen:
+      activeService: hello-world-active    # Current live traffic
+      previewService: hello-world-preview  # New version preview
+      autoPromotionEnabled: true           # Auto-promote after checks pass
+      autoPromotionSeconds: 30             # Wait 30s before promoting
+      scaleDownDelaySeconds: 60            # Keep old version 60s after switch

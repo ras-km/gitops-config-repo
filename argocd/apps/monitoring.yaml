@@ -1,0 +1,85 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: monitoring
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://prometheus-community.github.io/helm-charts
+    chart: kube-prometheus-stack
+    targetRevision: 57.0.1
+    helm:
+      values: |
+        # Grafana configuration
+        grafana:
+          enabled: true
+          adminPassword: changeme123  # In production, use Sealed Secrets!
+          ingress:
+            enabled: true
+            hosts:
+              - grafana.local
+            tls:
+              - secretName: grafana-tls
+                hosts:
+                  - grafana.local
+          # Pre-load useful dashboards
+          dashboardProviders:
+            dashboardproviders.yaml:
+              apiVersion: 1
+              providers:
+                - name: default
+                  folder: ''
+                  type: file
+                  disableDeletion: false
+                  options:
+                    path: /var/lib/grafana/dashboards/default
+          dashboards:
+            default:
+              kubernetes-cluster:
+                gnetId: 7249  # Kubernetes cluster monitoring dashboard
+                revision: 1
+                datasource: Prometheus
+ 
+        # Prometheus configuration
+        prometheus:
+          prometheusSpec:
+            # Scrape all namespaces (default only scrapes prometheus ns)
+            podMonitorSelectorNilUsesHelmValues: false
+            serviceMonitorSelectorNilUsesHelmValues: false
+            # Retention period
+            retention: 30d
+            storageSpec:
+              volumeClaimTemplate:
+                spec:
+                  accessModes: [ReadWriteOnce]
+                  resources:
+                    requests:
+                      storage: 10Gi
+ 
+        # Enable monitoring for all namespaces
+        defaultRules:
+          create: true
+          rules:
+            alertmanager: true
+            etcd: true
+            configReloaders: true
+            general: true
+            kubeApiserverAvailability: true
+            kubeApiserverBurnrate: true
+            kubelet: true
+            kubeStateMetrics: true
+            network: true
+            node: true
+            nodeExporterAlerting: true
+            nodeExporterRecording: true
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: monitoring
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true  # Required for large CRD manifests

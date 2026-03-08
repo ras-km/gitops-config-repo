@@ -1,0 +1,24 @@
+replicaCount: 2
+ 
+image:
+  repository: ghcr.io/ras-km/hello-world
+  tag: latest
+  pullPolicy: IfNotPresent
+ 
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 8080
+ 
+ingress:
+  enabled: true
+  host: hello-world.example.com
+  tls: true
+ 
+resources:
+  requests:
+    memory: 64Mi
+    cpu: 50m
+  limits:
+    memory: 128Mi
+    cpu: 100m
