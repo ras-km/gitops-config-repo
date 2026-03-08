@@ -1,36 +1,23 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
- 
+
 bases:
   - ../../base
- 
+
 namespace: hello-world-production
- 
+
 commonLabels:
   environment: production
- 
+
 images:
   - name: ghcr.io/ras-km/hello-world
     newTag: v1.0.12
- 
+
 patches:
   - patch: |-
       - op: replace
         path: /spec/replicas
-        value: 3  # More replicas for production HA
+        value: 3
     target:
-      kind: Deployment
+      kind: Rollout
       name: hello-world
- 
-# Add Istio injection label to namespace
-patches:
-  - patch: |-
-      apiVersion: v1
-      kind: Namespace
-      metadata:
-        name: hello-world-production
-        labels:
-          istio-injection: enabled
-    target:
-      kind: Namespace
-      name: hello-world-production
