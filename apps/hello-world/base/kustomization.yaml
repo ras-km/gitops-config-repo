@@ -6,7 +6,3 @@ resources:
   - services-blue-green.yaml
   - ingress.yaml
   - servicemonitor.yaml
-
-commonLabels:
-  managed-by: argocd
-  team: platform
