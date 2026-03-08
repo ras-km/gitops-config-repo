@@ -21,3 +21,16 @@ patches:
     target:
       kind: Deployment
       name: hello-world
+ 
+# Add Istio injection label to namespace
+patches:
+  - patch: |-
+      apiVersion: v1
+      kind: Namespace
+      metadata:
+        name: hello-world-production
+        labels:
+          istio-injection: enabled
+    target:
+      kind: Namespace
+      name: hello-world-production

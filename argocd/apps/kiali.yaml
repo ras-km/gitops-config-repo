@@ -1,0 +1,31 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kiali
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "3"
+spec:
+  project: default
+  source:
+    repoURL: https://kiali.org/helm-charts
+    chart: kiali-server
+    targetRevision: 1.79.0
+    helm:
+      values: |
+        auth:
+          strategy: anonymous  # For demo; use OIDC in production
+        external_services:
+          prometheus:
+            url: http://monitoring-kube-prometheus-prometheus.monitoring:9090
+          grafana:
+            url: http://monitoring-grafana.monitoring:80
+        server:
+          web_root: /kiali
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: istio-system
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
