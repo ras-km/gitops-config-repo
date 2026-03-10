@@ -4,7 +4,8 @@ metadata:
   name: hello-world-active
 spec:
   ports:
-    - port: 80
+    - name: http
+      port: 80
       targetPort: 8080
       protocol: TCP
 ---
@@ -14,6 +15,7 @@ metadata:
   name: hello-world-preview
 spec:
   ports:
-    - port: 80
+    - name: http
+      port: 80
       targetPort: 8080
       protocol: TCP

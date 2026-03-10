@@ -1,7 +1,7 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: hello-world
+  name: hello-world-active
 spec:
   hosts:
     - hello-world-active
@@ -15,9 +15,38 @@ spec:
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
-  name: hello-world
+  name: hello-world-active
 spec:
   host: hello-world-active
+  trafficPolicy:
+    connectionPool:
+      tcp:
+        maxConnections: 100
+    outlierDetection:
+      consecutive5xxErrors: 3
+      interval: 30s
+      baseEjectionTime: 30s
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: hello-world-preview
+spec:
+  hosts:
+    - hello-world-preview
+  http:
+    - route:
+        - destination:
+            host: hello-world-preview
+            port:
+              number: 80
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: hello-world-preview
+spec:
+  host: hello-world-preview
   trafficPolicy:
     connectionPool:
       tcp:
