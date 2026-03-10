@@ -1,6 +1,21 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
+  name: hello-world-egressgateway
+spec:
+  selector:
+    istio: egressgateway
+  servers:
+    - port:
+        number: 80
+        name: http
+        protocol: HTTP
+      hosts:
+        - "*"
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
   name: hello-world-gateway
 spec:
   selector:
