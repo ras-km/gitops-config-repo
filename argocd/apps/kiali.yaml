@@ -14,12 +14,20 @@ spec:
     helm:
       values: |
         auth:
-          strategy: anonymous  # For demo; use OIDC in production
+          strategy: anonymous
         external_services:
           prometheus:
-            url: http://monitoring-kube-prometheus-prometheus.monitoring:9090
+            url: http://monitoring-kube-prometheus-prometheus.monitoring.svc.cluster.local:9090
           grafana:
-            url: http://monitoring-grafana.monitoring:80
+            enabled: true
+            in_cluster_url: http://monitoring-grafana.monitoring.svc.cluster.local:80
+            url: http://monitoring-grafana.monitoring.svc.cluster.local:80
+            auth:
+              type: basic
+              username: admin
+              password: changeme123
+          tracing:
+            enabled: false
         server:
           web_root: /kiali
   destination:
