@@ -1,4 +1,27 @@
 apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: hello-world-gateway
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+    - port:
+        number: 80
+        name: http
+        protocol: HTTP
+      hosts:
+        - hello-world.local
+    - port:
+        number: 443
+        name: https
+        protocol: HTTPS
+      tls:
+        mode: PASSTHROUGH
+      hosts:
+        - hello-world.local
+---
+apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
   name: hello-world-active
@@ -30,14 +53,18 @@ spec:
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: hello-world-preview
+  name: hello-world-active
 spec:
   hosts:
-    - hello-world-preview
+    - hello-world-active
+    - hello-world.local
+  gateways:
+    - hello-world-gateway
+    - mesh
   http:
     - route:
         - destination:
-            host: hello-world-preview
+            host: hello-world-active
             port:
               number: 80
 ---
