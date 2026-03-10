@@ -13,16 +13,12 @@ spec:
       values: |
         service:
           type: LoadBalancer
+          annotations: {}
         labels:
-          app: istio-ingressgateway
-          istio: ingressgateway
-        podLabels:
           app: istio-ingressgateway
           istio: ingressgateway
         serviceAccount:
           name: istio-ingressgateway
-        nameOverride: istio-ingressgateway
-        fullnameOverride: istio-ingressgateway
   destination:
     server: https://kubernetes.default.svc
     namespace: istio-system
