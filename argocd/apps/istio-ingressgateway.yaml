@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: istio-gateway
+  name: istio-ingressgateway
   namespace: argocd
 spec:
   project: default
@@ -13,7 +13,6 @@ spec:
       values: |
         service:
           type: LoadBalancer
-          annotations: {}
         labels:
           app: istio-ingressgateway
           istio: ingressgateway
