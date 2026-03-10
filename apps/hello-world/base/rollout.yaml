@@ -11,6 +11,7 @@ spec:
     metadata:
       labels:
         app: hello-world
+        version: v1
     spec:
       securityContext:
         runAsNonRoot: true

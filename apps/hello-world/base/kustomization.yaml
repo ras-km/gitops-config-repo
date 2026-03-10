@@ -6,3 +6,4 @@ resources:
   - services-blue-green.yaml
   - ingress.yaml
   - servicemonitor.yaml
+  - istio-config.yaml
