@@ -7,7 +7,7 @@ metadata:
     argocd-image-updater.argoproj.io/image-list: hello-world=ghcr.io/ras-km/hello-world
     argocd-image-updater.argoproj.io/hello-world.update-strategy: latest
     argocd-image-updater.argoproj.io/hello-world.platforms: linux/amd64
-    argocd-image-updater.argoproj.io/write-back-method: git
+    argocd-image-updater.argoproj.io/write-back-method: git:secret:argocd/git-credentials
     argocd-image-updater.argoproj.io/git-branch: main
 spec:
   project: default
