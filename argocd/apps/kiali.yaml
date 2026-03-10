@@ -15,6 +15,8 @@ spec:
       values: |
         auth:
           strategy: anonymous
+        kiali_feature_flags:
+          disabled_features: []
         external_services:
           prometheus:
             url: http://monitoring-kube-prometheus-prometheus.monitoring.svc.cluster.local:9090
