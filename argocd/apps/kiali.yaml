@@ -15,15 +15,13 @@ spec:
       values: |
         auth:
           strategy: anonymous
-        kiali_feature_flags:
-          disabled_features: []
         external_services:
           prometheus:
             url: http://monitoring-kube-prometheus-prometheus.monitoring.svc.cluster.local:9090
           grafana:
             enabled: true
-            in_cluster_url: http://monitoring-grafana.monitoring.svc.cluster.local:80
-            url: http://monitoring-grafana.monitoring.svc.cluster.local:80
+            internal_url: http://monitoring-grafana.monitoring.svc.cluster.local:80
+            external_url: http://monitoring-grafana.monitoring.svc.cluster.local:80
             auth:
               type: basic
               username: admin
