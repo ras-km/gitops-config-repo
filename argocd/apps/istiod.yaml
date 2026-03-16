@@ -27,9 +27,12 @@ spec:
       kind: ValidatingWebhookConfiguration
       name: istio-validator-istio-system
       jsonPointers:
-        - /webhooks
+        - /webhooks/0/failurePolicy
     - group: admissionregistration.k8s.io
       kind: MutatingWebhookConfiguration
       name: istio-sidecar-injector
       jsonPointers:
-        - /webhooks
+        - /webhooks/0/failurePolicy
+        - /webhooks/1/failurePolicy
+        - /webhooks/2/failurePolicy
+        - /webhooks/3/failurePolicy
