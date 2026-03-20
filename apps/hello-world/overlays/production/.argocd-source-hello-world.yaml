@@ -1,0 +1,3 @@
+kustomize:
+  images:
+  - ghcr.io/ras-km/hello-world:v1.0.17
